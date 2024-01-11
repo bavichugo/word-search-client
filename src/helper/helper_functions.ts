@@ -21,7 +21,7 @@ export const api_url = (
     filter += `&${key}=${value}`;
   }
 
-  return `${import.meta.env.VITE_API_URL}/api/words?language=${language}${filter}${lastWordFilter}`;
+  return `${import.meta.env.VITE_API_URL}?language=${language}${filter}${lastWordFilter}`;
 };
 
 /**
