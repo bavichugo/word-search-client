@@ -12,11 +12,11 @@ const App = () => {
   return (
     <div className="h-full w-full bg-[#111827] flex flex-col items-center gap-4 px-2 sm:px-4">
       <NavBar />
-      <span className="text-lg">{t('use_the_filters')}</span>
+      <span className="text-lg">{t("use_the_filters")}</span>
       <WordFilter />
       {!isEmptyObject(words) && <WordDisplay />}
     </div>
   );
-}
+};
 
 export default App;

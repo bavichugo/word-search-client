@@ -24,6 +24,7 @@ interface AppContextType {
   fetchNextWords: () => void;
   previousPage: () => void;
   page: number;
+  isFetchingWords: boolean;
 }
 
 const AppContext = createContext<AppContextType>({
@@ -38,6 +39,7 @@ const AppContext = createContext<AppContextType>({
   fetchNextWords: () => {},
   previousPage: () => {},
   page: 0,
+  isFetchingWords: false,
 });
 
 export const WordsContextProvider: React.FC<{ children: ReactNode }> = ({
@@ -49,6 +51,7 @@ export const WordsContextProvider: React.FC<{ children: ReactNode }> = ({
   const [page, setPage] = useState<number>(0);
   const filterState = useFilter();
   const { i18n } = useTranslation();
+  const [isFetchingWords, setIsFetchingWords] = useState<boolean>(false);
 
   // Setting language and isTipsOn intial values based
   // on previous user selection
@@ -76,6 +79,7 @@ export const WordsContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const fetchInitialWords = async () => {
     try {
+      setIsFetchingWords(true);
       const response = await fetch(api_url(language, filterState.filter));
 
       if (!response.ok) {
@@ -90,6 +94,8 @@ export const WordsContextProvider: React.FC<{ children: ReactNode }> = ({
         console.log(error.message);
       }
       console.log(error);
+    } finally {
+      setIsFetchingWords(false);
     }
   };
 
@@ -102,6 +108,7 @@ export const WordsContextProvider: React.FC<{ children: ReactNode }> = ({
         return;
       }
 
+      setIsFetchingWords(true);
       const response = await fetch(
         api_url(language, filterState.filter, lastWord(words))
       );
@@ -119,6 +126,8 @@ export const WordsContextProvider: React.FC<{ children: ReactNode }> = ({
         console.log(error.message);
       }
       console.log(error);
+    } finally {
+      setIsFetchingWords(false);
     }
   };
 
@@ -141,6 +150,7 @@ export const WordsContextProvider: React.FC<{ children: ReactNode }> = ({
         fetchNextWords,
         previousPage,
         page,
+        isFetchingWords
       }}
     >
       {children}

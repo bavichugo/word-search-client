@@ -3,12 +3,20 @@ import { WordContext } from "../context/WordContext";
 import { useTranslation } from "react-i18next";
 import { TOOLTIP_CONTENT } from "../data/tooltipContent";
 import { isEmptyObject, uniqueId } from "../helper/helper_functions";
+import { helix } from "ldrs";
 
 const WordFilter = () => {
-  const { fetchInitialWords, resetFilter, words, filterState } = WordContext();
+  const {
+    fetchInitialWords,
+    resetFilter,
+    words,
+    filterState,
+    isFetchingWords,
+  } = WordContext();
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
   const [hasEdited, setHasEdited] = useState<boolean>(false);
   const { t } = useTranslation();
+  helix.register();
 
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -85,20 +93,30 @@ const WordFilter = () => {
           />
         </div>
         <button
-          className={`${!hasEdited ? "bg-[#29c8e87f]" : "bg-[#29C9E8] hover:bg-[#29c8e8c6]"} w-full max-w-60 rounded-2xl py-3 text-[#111827]`}
+          className={`${
+            !hasEdited ? "bg-[#29c8e87f]" : "bg-[#29C9E8] hover:bg-[#29c8e8c6]"
+          } w-full max-w-60 rounded-2xl py-3 text-[#111827]`}
           type="submit"
           disabled={!hasEdited}
         >
           {t("search_filter")}
         </button>
       </form>
-      {!isEmptyObject(words) && (
+
+      {!isEmptyObject(words) && !isFetchingWords && (
         <button
           onClick={onResetHandler}
           className="bg-[#29C9E8] hover:bg-[#29c8e8c6] text-[#111827] w-fit rounded-full px-6 py-1"
         >
           {t("reset_filter")}
         </button>
+      )}
+
+      {isFetchingWords && (
+        <div className="mx-auto my-auto flex items-center">
+          <l-helix size="45" speed="2.5" color="#29C9E8"></l-helix>
+          <span>{t("searching")}</span>
+        </div>
       )}
     </div>
   );
