@@ -21,7 +21,6 @@ export const api_url = (
   return `${import.meta.env.VITE_API_URL}?language=${language}${filter}${lastWordFilter}`;
 };
 
-// TODO: add loading spinner when searching and going to next
 // TODO: add api to fetch words on hover
 
 /**

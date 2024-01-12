@@ -12,6 +12,9 @@ const WordFilter = () => {
     words,
     filterState,
     isFetchingWords,
+    fetchNextWords,
+    page,
+    previousPage,
   } = WordContext();
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
   const [hasEdited, setHasEdited] = useState<boolean>(false);
@@ -104,12 +107,40 @@ const WordFilter = () => {
       </form>
 
       {!isEmptyObject(words) && !isFetchingWords && (
-        <button
-          onClick={onResetHandler}
-          className="bg-[#29C9E8] hover:bg-[#29c8e8c6] text-[#111827] w-fit rounded-full px-6 py-1"
-        >
-          {t("reset_filter")}
-        </button>
+        <div className="flex justify-between">
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={previousPage}
+              disabled={page === 0}
+              type="button"
+              className={`${
+                page === 0
+                  ? "bg-[#29c8e87f]"
+                  : "bg-[#29C9E8] hover:bg-[#29c8e8c6]"
+              } text-[#111827] w-fit rounded-full px-6 py-1`}
+            >
+              {t("previous")}
+            </button>
+            <button
+              onClick={fetchNextWords}
+              disabled={words[page].length < 100}
+              type="button"
+              className={`${
+                words[page].length < 100
+                  ? "bg-[#29c8e87f]"
+                  : "bg-[#29C9E8] hover:bg-[#29c8e8c6]"
+              } text-[#111827] w-fit rounded-full px-6 py-1`}
+            >
+              {t("next")}
+            </button>
+          </div>
+          <button
+            onClick={onResetHandler}
+            className="bg-[#29C9E8] hover:bg-[#29c8e8c6] text-[#111827] w-fit rounded-full py-1 px-6"
+          >
+            {t("reset_filter")}
+          </button>
+        </div>
       )}
 
       {isFetchingWords && (
