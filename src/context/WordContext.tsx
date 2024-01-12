@@ -95,6 +95,13 @@ export const WordsContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const fetchNextWords = async () => {
     try {
+
+      // Prevents refetching a page that has already being fetched
+      if (page + 1 in words) {
+        setPage(page + 1);
+        return;
+      }
+
       const response = await fetch(
         api_url(language, filterState.filter, lastWord(words))
       );

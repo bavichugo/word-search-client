@@ -22,8 +22,6 @@ export const api_url = (
 };
 
 // TODO: add loading spinner when searching and going to next
-// TODO: fix moving to the next page, make sure it is moving one page at a time
-//       and that it is not fetching a page that is already fetched
 // TODO: add api to fetch words on hover
 
 /**

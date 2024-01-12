@@ -43,7 +43,6 @@ export const defaultFilterState: IFilterState = {
   resetFilter: () => {}
 };
 
-// TODO: block the search button if the person has not typed anything on it
 const useFilter = () => {
   const [letters, setLetters] = useState<string>("");
   const [absentLetters, setAbsentLetters] = useState<string>("");
