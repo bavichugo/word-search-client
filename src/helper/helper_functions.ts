@@ -15,14 +15,16 @@ export const api_url = (
   lastWord?: string
 ): string => {
   const lastWordFilter = lastWord ? `&lastWord=${lastWord}` : "";
-  let filter: string = "";
-
-  for (const [key, value] of Object.entries(filterObj)) {
-    filter += `&${key}=${value}`;
-  }
+  const urlParams = new URLSearchParams(filterObj);
+  const filter = isEmptyObject(filterObj) ? "" : `&${urlParams.toString()}`
 
   return `${import.meta.env.VITE_API_URL}?language=${language}${filter}${lastWordFilter}`;
 };
+
+// TODO: add loading spinner when searching and going to next
+// TODO: fix moving to the next page, make sure it is moving one page at a time
+//       and that it is not fetching a page that is already fetched
+// TODO: add api to fetch words on hover
 
 /**
  * Determines if an object is empty ({}) or not.
