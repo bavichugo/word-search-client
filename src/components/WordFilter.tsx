@@ -180,7 +180,7 @@ const FormInput: React.FC<InputProps> = ({
   activeTooltip,
   toggleTooltip,
 }) => {
-  const { isTipsOn } = WordContext();
+  const { isTipsOn, isFetchingWords } = WordContext();
   const { t } = useTranslation();
 
   return (
@@ -192,6 +192,7 @@ const FormInput: React.FC<InputProps> = ({
         value={value}
         onClick={() => toggleTooltip(tooltipType)}
         onChange={(e) => onChange(e.target.value)}
+        disabled={isFetchingWords}
       />
       {isTipsOn && (
         <dialog
